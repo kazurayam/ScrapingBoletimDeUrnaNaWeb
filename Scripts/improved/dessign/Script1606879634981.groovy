@@ -18,11 +18,11 @@ Map<String, TestObject> to = [
 	'BotãoPesquisar':	findTestObject('Object Repository/Page_Boletim de Urna na WEB/span_Pesquisar'),
 ]
 //Primeiros valores
-WebUI.selectOptionByIndex(to['ComboTurno'], 0)
-WebUI.selectOptionByIndex(to['ComboUF'], 1)
-WebUI.selectOptionByIndex(to['ComboMunicipio'], 1)
-WebUI.selectOptionByIndex(to['ComboZona'], 1)
-WebUI.selectOptionByIndex(to['ComboSeção'], 1)
+WebUI.selectOptionByIndex(to['ComboTurno'], 0);     WebUI.delay(1);
+WebUI.selectOptionByIndex(to['ComboUF'], 1);        WebUI.delay(1);
+WebUI.selectOptionByIndex(to['ComboMunicipio'], 1); WebUI.delay(1);
+WebUI.selectOptionByIndex(to['ComboZona'], 1);      WebUI.delay(1);
+WebUI.selectOptionByIndex(to['ComboSeção'], 1);     WebUI.delay(1);
 
 //Primeira pesquisa
 WebUI.click(to['BotãoPesquisar'])

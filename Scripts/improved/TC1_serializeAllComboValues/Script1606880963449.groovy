@@ -1,20 +1,14 @@
-import static com.kms.katalon.core.checkpoint.CheckpointFactory.findCheckpoint
-import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
-import static com.kms.katalon.core.testdata.TestDataFactory.findTestData
 import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
-import static com.kms.katalon.core.testobject.ObjectRepository.findWindowsObject
-import com.kms.katalon.core.checkpoint.Checkpoint as Checkpoint
-import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as CucumberKW
-import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords as Mobile
-import com.kms.katalon.core.model.FailureHandling as FailureHandling
-import com.kms.katalon.core.testcase.TestCase as TestCase
-import com.kms.katalon.core.testdata.TestData as TestData
-import com.kms.katalon.core.testobject.TestObject as TestObject
-import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
-import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-import com.kms.katalon.core.windows.keyword.WindowsBuiltinKeywords as Windows
-import internal.GlobalVariable as GlobalVariable
+
 import org.apache.commons.io.FileUtils
+
+import com.kms.katalon.core.model.FailureHandling as FailureHandling
+import com.kms.katalon.core.testobject.TestObject as TestObject
+import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+
+import groovy.json.JsonOutput
+import internal.GlobalVariable as GlobalVariable
+import my.ComboBoxesInspector
 
 // display parameter values
 WebUI.comment("TARGET_URL: ${GlobalVariable.TARGET_URL}")
@@ -31,13 +25,46 @@ File pageSourcesDir = new File(GlobalVariable.DIRNAME_PAGESOURCES)
 initializeDir(pageSourcesDir)
 
 WebUI.openBrowser('')
+WebUI.setViewPortSize(414, 736)
 WebUI.navigateToUrl(GlobalVariable.TARGET_URL)
-// wait for the page loaded
+
+// wait for the page is loaded
 WebUI.verifyElementPresent(findTestObject('Page_Boletim de Urna na WEB/h2_region_title'), 10)
 
-// iterate over values of Combo boxes, collect the information
+Map<String, TestObject> testObjects = [
+	'Turno':		findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_12'),
+	'UF':			findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_UFACALAMAPBACEDFESGOMAMGMSMTPAPBPEPI_a973a7'),
+	'Municipio':	findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_Selecione um municpio  localidadeACR_454ffd'),
+	'Zona':		findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_--0008'),
+	'Seção':		findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_--0008000900640072007700830084008500_2e62b7'),
+	'BotãoPesquisar':	findTestObject('Object Repository/Page_Boletim de Urna na WEB/span_Pesquisar'),
+]
+// make sure that all testObjects are defined correctly
+for (tObj in testObjects.values()) {
+	WebUI.verifyElementPresent(tObj, 1, FailureHandling.STOP_ON_FAILURE)
+}
+
+//Primeiros valores
+// When a <select> is changed, the next <select> is updated by JavaScript,
+// so we need to wait a while. How long? --- I do not know. Try 1 second and see.
+WebUI.selectOptionByIndex(testObjects['Turno'], 0);     WebUI.delay(1); 
+WebUI.selectOptionByIndex(testObjects['UF'], 1);        WebUI.delay(1);
+WebUI.selectOptionByIndex(testObjects['Municipio'], 1); WebUI.delay(1);
+WebUI.selectOptionByIndex(testObjects['Zona'], 1);      WebUI.delay(1);
+WebUI.selectOptionByIndex(testObjects['Seção'], 1);     WebUI.delay(1);
+
+//Primeira pesquisa
+WebUI.click(testObjects['BotãoPesquisar'])
+// wait for the page is loaded
+WebUI.verifyElementPresent(findTestObject('Page_Boletim de Urna na WEB/h2_region_title'), 3)
+
+
+// data buffer
+List<Map> comboValues = ComboBoxesInspector.inspect(testObjects)
 
 // serialize the collected info into a JSON file
+String json = JsonOutput.toJson(comboValues)
+print JsonOutput.prettyPrint(json)
 
 WebUI.closeBrowser()
 
