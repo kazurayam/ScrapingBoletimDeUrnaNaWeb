@@ -34,4 +34,9 @@
       <initValue>2</initValue>
       <name>SIZE_PARALLEL_PROCESSING</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>true</initValue>
+      <name>DEBUG_MODE</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>

@@ -1,5 +1,7 @@
 import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
 
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.io.FileUtils
 
 import com.kms.katalon.core.model.FailureHandling as FailureHandling
@@ -17,6 +19,7 @@ WebUI.comment("DIRNAME_PAGESOURCES: ${GlobalVariable.DIRNAME_PAGESOURCES}")
 WebUI.comment("FILENAME_ALLCOMBOVALUES: ${GlobalVariable.FILENAME_ALLCOMBOVALUES}")
 WebUI.comment("FILENAME_SPLITTEDCOMBOVALUES: ${GlobalVariable.FILENAME_SPLITTEDCOMBOVALUES}")
 WebUI.comment("SIZE_PARALLEL_PROCESSING: ${GlobalVariable.SIZE_PARALLEL_PROCESSING}")
+WebUI.comment("DEBUG_MODE: ${GlobalVariable.DEBUG_MODE}")
 
 // initialize output direcgtories, 
 File parametersDir = new File(GlobalVariable.DIRNAME_PARAMETERS)
@@ -44,27 +47,13 @@ for (tObj in testObjects.values()) {
 	WebUI.verifyElementPresent(tObj, 1, FailureHandling.STOP_ON_FAILURE)
 }
 
-//Primeiros valores
-// When a <select> is changed, the next <select> is updated by JavaScript,
-// so we need to wait a while. How long? --- I do not know. Try 1 second and see.
-//WebUI.selectOptionByIndex(testObjects['Turno'], 0);     WebUI.delay(1); 
-//WebUI.selectOptionByIndex(testObjects['UF'], 1);        WebUI.delay(1);
-//WebUI.selectOptionByIndex(testObjects['Municipio'], 1); WebUI.delay(1);
-//WebUI.selectOptionByIndex(testObjects['Zona'], 1);      WebUI.delay(1);
-//WebUI.selectOptionByIndex(testObjects['Seção'], 1);     WebUI.delay(1);
-
-//Primeira pesquisa
-//WebUI.click(testObjects['BotãoPesquisar'])
-// wait for the page is loaded
-//WebUI.verifyElementPresent(findTestObject('Page_Boletim de Urna na WEB/h2_region_title'), 3)
-
-
 // data buffer
 List<Map> comboValues = ComboBoxesScraper.process(testObjects)
 
-// serialize the collected info into a JSON file
+// serialize the collected info into a text file in JSON format
 String json = JsonOutput.toJson(comboValues)
-print JsonOutput.prettyPrint(json)
+File allComboValuesFile = parametersDir.toPath().resolve(GlobalVariable.FILENAME_ALLCOMBOVALUES).toFile()
+writeTextIntoFile(JsonOutput.prettyPrint(json), allComboValuesFile)
 
 WebUI.closeBrowser()
 
@@ -82,4 +71,12 @@ def initializeDir(File dir) throws IOException {
 		FileUtils.deleteDirectory(dir)
 	}
 	dir.mkdirs()
+}
+
+def writeTextIntoFile(String text, File outfile) throws IOException {
+	OutputStream os = new FileOutputStream(outfile)
+	Writer wr = new OutputStreamWriter(os, StandardCharsets.UTF_8.name())
+	wr.write(text)
+	wr.flush()
+	os.close()
 }
