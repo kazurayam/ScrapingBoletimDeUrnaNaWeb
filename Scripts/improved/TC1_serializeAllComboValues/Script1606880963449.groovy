@@ -8,7 +8,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import groovy.json.JsonOutput
 import internal.GlobalVariable as GlobalVariable
-import my.ComboBoxesInspector
+import my.ComboBoxesScraper
 
 // display parameter values
 WebUI.comment("TARGET_URL: ${GlobalVariable.TARGET_URL}")
@@ -35,7 +35,7 @@ Map<String, TestObject> testObjects = [
 	'Turno':		findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_12'),
 	'UF':			findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_UFACALAMAPBACEDFESGOMAMGMSMTPAPBPEPI_a973a7'),
 	'Municipio':	findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_Selecione um municpio  localidadeACR_454ffd'),
-	'Zona':		findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_--0008'),
+	'Zona':		    findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_--0008'),
 	'Seção':		findTestObject('Object Repository/Page_Boletim de Urna na WEB/select_--0008000900640072007700830084008500_2e62b7'),
 	'BotãoPesquisar':	findTestObject('Object Repository/Page_Boletim de Urna na WEB/span_Pesquisar'),
 ]
@@ -47,20 +47,20 @@ for (tObj in testObjects.values()) {
 //Primeiros valores
 // When a <select> is changed, the next <select> is updated by JavaScript,
 // so we need to wait a while. How long? --- I do not know. Try 1 second and see.
-WebUI.selectOptionByIndex(testObjects['Turno'], 0);     WebUI.delay(1); 
-WebUI.selectOptionByIndex(testObjects['UF'], 1);        WebUI.delay(1);
-WebUI.selectOptionByIndex(testObjects['Municipio'], 1); WebUI.delay(1);
-WebUI.selectOptionByIndex(testObjects['Zona'], 1);      WebUI.delay(1);
-WebUI.selectOptionByIndex(testObjects['Seção'], 1);     WebUI.delay(1);
+//WebUI.selectOptionByIndex(testObjects['Turno'], 0);     WebUI.delay(1); 
+//WebUI.selectOptionByIndex(testObjects['UF'], 1);        WebUI.delay(1);
+//WebUI.selectOptionByIndex(testObjects['Municipio'], 1); WebUI.delay(1);
+//WebUI.selectOptionByIndex(testObjects['Zona'], 1);      WebUI.delay(1);
+//WebUI.selectOptionByIndex(testObjects['Seção'], 1);     WebUI.delay(1);
 
 //Primeira pesquisa
-WebUI.click(testObjects['BotãoPesquisar'])
+//WebUI.click(testObjects['BotãoPesquisar'])
 // wait for the page is loaded
-WebUI.verifyElementPresent(findTestObject('Page_Boletim de Urna na WEB/h2_region_title'), 3)
+//WebUI.verifyElementPresent(findTestObject('Page_Boletim de Urna na WEB/h2_region_title'), 3)
 
 
 // data buffer
-List<Map> comboValues = ComboBoxesInspector.inspect(testObjects)
+List<Map> comboValues = ComboBoxesScraper.process(testObjects)
 
 // serialize the collected info into a JSON file
 String json = JsonOutput.toJson(comboValues)
