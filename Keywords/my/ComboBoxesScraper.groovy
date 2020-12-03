@@ -30,42 +30,44 @@ public class ComboBoxesScraper {
 
 		// iterate over the Combo boxes while changing selections, collect values
 		def tMax = WebUI.getNumberOfTotalOption(testObjects['Turno'])
+		List<WebElement> tOptions = new Select(WebUI.findWebElement(testObjects['Turno'])).getOptions()
 		for (int t = 0; t <= tMax; t++) {
 			WebUI.selectOptionByIndex(testObjects['Turno'], t)
 			//WebUI.delay(1)
 			Thread.sleep(100)   // 1000 millisecond is too long
-			WebElement tOpt = new Select(WebUI.findWebElement(testObjects['Turno'])).getOptions()[t]
+			WebElement tOpt = tOptions[t]
 			def tVal = getValue(tOpt)
 			def tTxt = getText(tOpt)
 			def uMax = WebUI.getNumberOfTotalOption(testObjects['UF'])
+			List<WebElement> uOptions = new Select(WebUI.findWebElement(testObjects['UF'])).getOptions()
 			for (int u = 1; u < uMax; u++) {
 				WebUI.selectOptionByIndex(testObjects['UF'], u)
 				//WebUI.delay(1)
 				Thread.sleep(100)
-				WebElement uOpt = new Select(WebUI.findWebElement(testObjects['UF'])).getOptions()[u]
+				WebElement uOpt = uOptions[u]
 				def uVal = getValue(uOpt)
 				def uTxt = getText(uOpt)
 				def mMax = WebUI.getNumberOfTotalOption(testObjects['Municipio'])
+				List<WebElement> mOptions =new Select(WebUI.findWebElement(testObjects['Municipio'])).getOptions()
 				for (int m = 1; m < mMax; m++) {
 					WebUI.selectOptionByIndex(testObjects['Municipio'], m)
 					//WebUI.delay(1)
 					Thread.sleep(100)
-					WebElement mOpt = new Select(WebUI.findWebElement(testObjects['Municipio'])).getOptions()[m]
+					WebElement mOpt = mOptions[m]
 					def mVal = getValue(mOpt)
 					def mTxt = getText(mOpt)
 					def zMax = WebUI.getNumberOfTotalOption(testObjects['Zona'])
+					List<WebElement> zOptions = new Select(WebUI.findWebElement(testObjects['Zona'])).getOptions()
 					for (int z = 1; z < zMax; z++) {
 						WebUI.selectOptionByIndex(testObjects['Zona'], z)
 						//WebUI.delay(1)
 						Thread.sleep(100)
-						WebElement zOpt = new Select(WebUI.findWebElement(testObjects['Zona'])).getOptions()[z]
+						WebElement zOpt = zOptions[z]
 						def zVal = getValue(zOpt)
 						def zTxt = getText(zOpt)
 						// cache values which are frequently referred to for better performance
 						def sMax = WebUI.getNumberOfTotalOption(testObjects['Seção'])
-						def sSelect = WebUI.findWebElement(testObjects['Seção'])
-						List<WebElement> sOptions = new Select(sSelect).getOptions()
-						//
+						List<WebElement> sOptions = new Select(WebUI.findWebElement(testObjects['Seção'])).getOptions()
 						for (int s = 1; s < sMax; s++) {
 							// won't do selecting, for better performance
 							//WebUI.selectOptionByIndex(testObjects['Seção'], s)
