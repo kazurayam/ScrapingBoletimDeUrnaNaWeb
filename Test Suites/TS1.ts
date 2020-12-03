@@ -17,10 +17,4 @@
       <isRun>true</isRun>
       <testCaseId>Test Cases/redesigned/TC1_serializeAllComboValues</testCaseId>
    </testCaseLink>
-   <testCaseLink>
-      <guid>9fe42aa2-e1a5-4520-8883-46067c966242</guid>
-      <isReuseDriver>false</isReuseDriver>
-      <isRun>true</isRun>
-      <testCaseId>Test Cases/redesigned/TC1_serializeAllComboValues</testCaseId>
-   </testCaseLink>
 </TestSuiteEntity>
