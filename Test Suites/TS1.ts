@@ -11,4 +11,16 @@
    <rerunFailedTestCasesOnly>false</rerunFailedTestCasesOnly>
    <rerunImmediately>false</rerunImmediately>
    <testSuiteGuid>6f0af660-fe36-47fb-9510-67c35b856617</testSuiteGuid>
+   <testCaseLink>
+      <guid>4c0c7618-50ff-4fe0-9fe6-342a6ccec4c9</guid>
+      <isReuseDriver>false</isReuseDriver>
+      <isRun>true</isRun>
+      <testCaseId>Test Cases/redesigned/TC1_serializeAllComboValues</testCaseId>
+   </testCaseLink>
+   <testCaseLink>
+      <guid>9fe42aa2-e1a5-4520-8883-46067c966242</guid>
+      <isReuseDriver>false</isReuseDriver>
+      <isRun>true</isRun>
+      <testCaseId>Test Cases/redesigned/TC1_serializeAllComboValues</testCaseId>
+   </testCaseLink>
 </TestSuiteEntity>

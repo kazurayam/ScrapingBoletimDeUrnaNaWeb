@@ -11,6 +11,7 @@ import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 import groovy.json.JsonOutput
 import internal.GlobalVariable as GlobalVariable
 import my.ComboBoxesScraper
+import my.FileAppender
 
 // display parameter values
 WebUI.comment("TARGET_URL: ${GlobalVariable.TARGET_URL}")
@@ -48,15 +49,17 @@ for (tObj in testObjects.values()) {
 }
 
 // data buffer
-List<Map> comboValues = ComboBoxesScraper.process(testObjects)
+List<Map> comboValues
 
-// serialize the collected info into a text file in JSON format
-String json = JsonOutput.toJson(comboValues)
+// AllComboValues file
 File allComboValuesFile = parametersDir.toPath().resolve(GlobalVariable.FILENAME_ALLCOMBOVALUES).toFile()
-writeTextIntoFile(JsonOutput.prettyPrint(json), allComboValuesFile)
+
+FileAppender appender = new FileAppender(allComboValuesFile)
+ComboBoxesScraper cbScraper = new ComboBoxesScraper(appender)
+cbScraper.process(testObjects)
+appender.close()
 
 WebUI.closeBrowser()
-
 
 /**
  * create a new empty directory,
@@ -66,14 +69,27 @@ WebUI.closeBrowser()
  * @return
  * @throws IOException
  */
-def initializeDir(File dir) throws IOException {
+void initializeDir(File dir) throws IOException {
 	if (dir.exists()) {
 		FileUtils.deleteDirectory(dir)
 	}
 	dir.mkdirs()
 }
 
-def writeTextIntoFile(String text, File outfile) throws IOException {
+String formatOutputTextAsJson(List<Map> comboValues) {
+	return JsonOutput.prettyPrint(JsonOutput.toJson(comboValues))
+}
+
+String formatOutputTextAsCSV(List<Map> comboValues) {
+	StringBuilder sb = new StringBuilder()
+	for (Map section in comboValues) {
+		sb.append(ComboBoxesScraper.toCSVLine(section))
+		sb.append('\n')
+	}
+	return sb.toString()
+}
+
+void writeTextIntoFile(String text, File outfile) throws IOException {
 	OutputStream os = new FileOutputStream(outfile)
 	Writer wr = new OutputStreamWriter(os, StandardCharsets.UTF_8.name())
 	wr.write(text)

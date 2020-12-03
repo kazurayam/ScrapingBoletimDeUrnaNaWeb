@@ -21,12 +21,12 @@
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>'AllComboValues.json'</initValue>
+      <initValue>'AllComboValues.csv'</initValue>
       <name>FILENAME_ALLCOMBOVALUES</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>'comboValues${SEQNUMBER}.json'</initValue>
+      <initValue>'comboValues${SEQNUMBER}.csv'</initValue>
       <name>FILENAME_SPLITTEDCOMBOVALUES</name>
    </GlobalVariableEntity>
    <GlobalVariableEntity>
@@ -36,7 +36,7 @@
    </GlobalVariableEntity>
    <GlobalVariableEntity>
       <description></description>
-      <initValue>true</initValue>
+      <initValue>false</initValue>
       <name>DEBUG_MODE</name>
    </GlobalVariableEntity>
 </GlobalVariableEntities>

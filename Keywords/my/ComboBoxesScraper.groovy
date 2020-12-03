@@ -11,41 +11,53 @@ import internal.GlobalVariable as GlobalVariable
 
 public class ComboBoxesScraper {
 
-	private ComboBoxesScraper() {}
+	FileAppender appender_
+
+	ComboBoxesScraper(FileAppender appender) {
+		this.appender_ = appender
+	}
 
 	/**
 	 * 
 	 * @param testObjects
 	 * @return
 	 */
-	static List process(Map<String, TestObject> testObjects) {
+	List process(Map<String, TestObject> testObjects) {
 
 		// data buffer
 		List<Map<String, String>> comboValues = []
 		int recCount = 0
 
 		// iterate over the Combo boxes while changing selections, collect values
-		for (int t = 0; t < WebUI.getNumberOfTotalOption(testObjects['Turno']); t++) {
+		def tMax = WebUI.getNumberOfTotalOption(testObjects['Turno'])
+		for (int t = 0; t <= tMax; t++) {
 			WebUI.selectOptionByIndex(testObjects['Turno'], t)
-			WebUI.delay(1)
+			//WebUI.delay(1)
+			Thread.sleep(100)   // 1000 millisecond is too long
 			WebElement tOpt = new Select(WebUI.findWebElement(testObjects['Turno'])).getOptions()[t]
 			def tVal = getValue(tOpt)
 			def tTxt = getText(tOpt)
-			for (int u = 1; u < WebUI.getNumberOfTotalOption(testObjects['UF']); u++) {
+			def uMax = WebUI.getNumberOfTotalOption(testObjects['UF'])
+			for (int u = 1; u < uMax; u++) {
 				WebUI.selectOptionByIndex(testObjects['UF'], u)
-				WebUI.delay(1)
+				//WebUI.delay(1)
+				Thread.sleep(100)
 				WebElement uOpt = new Select(WebUI.findWebElement(testObjects['UF'])).getOptions()[u]
 				def uVal = getValue(uOpt)
 				def uTxt = getText(uOpt)
-				for (int m = 1; m < WebUI.getNumberOfTotalOption(testObjects['Municipio']); m++) {
+				def mMax = WebUI.getNumberOfTotalOption(testObjects['Municipio'])
+				for (int m = 1; m < mMax; m++) {
 					WebUI.selectOptionByIndex(testObjects['Municipio'], m)
-					WebUI.delay(1)
+					//WebUI.delay(1)
+					Thread.sleep(100)
 					WebElement mOpt = new Select(WebUI.findWebElement(testObjects['Municipio'])).getOptions()[m]
 					def mVal = getValue(mOpt)
 					def mTxt = getText(mOpt)
-					for (int z = 1; z < WebUI.getNumberOfTotalOption(testObjects['Zona']); z++) {
+					def zMax = WebUI.getNumberOfTotalOption(testObjects['Zona'])
+					for (int z = 1; z < zMax; z++) {
 						WebUI.selectOptionByIndex(testObjects['Zona'], z)
-						WebUI.delay(1)
+						//WebUI.delay(1)
+						Thread.sleep(100)
 						WebElement zOpt = new Select(WebUI.findWebElement(testObjects['Zona'])).getOptions()[z]
 						def zVal = getValue(zOpt)
 						def zTxt = getText(zOpt)
@@ -62,19 +74,24 @@ public class ComboBoxesScraper {
 							def sVal = getValue(sOpt)
 							def sTxt = getText(sOpt)
 							//
-							Map record = [
+							Map section = [
 								'Turno':     ['x': t, 'v': tVal, 't': tTxt],
 								'UF':        ['x': u, 'v': uVal, 't': uTxt],
 								'Municipio': ['x': m, 'v': mVal, 't': mTxt],
 								'Zona':      ['x': z, 'v': zVal, 't': zTxt],
 								'Seção':     ['x': s, 'v': sVal, 't': sTxt],
 							]
-							comboValues.add(record)
+							comboValues.add(section)
 							++recCount
+							String line = toCSVLine(section)
 							if (recCount % 100 == 1) {
-								WebUI.comment("${recCount} ${record.toString()}")
+								// display progress
+								WebUI.comment("${recCount} ${line}")
 							}
-							// when DEBUG_MODE, quit shortly
+							if (appender_ != null) {
+								appender_.append(line)
+							}
+							// if DEBUG_MODE, quit shortly
 							if (GlobalVariable.DEBUG_MODE && recCount > 100) {
 								return comboValues
 							}
@@ -94,5 +111,14 @@ public class ComboBoxesScraper {
 		return (el != null) ? el.getText() : null
 	}
 
+	static String toCSVLine(Map section) {
+		StringBuilder sb = new StringBuilder()
+		sb.append("Turno,${section['Turno']['x']},${section['Turno']['v']},${section['Turno']['t']},")
+		sb.append("UF,${section['UF']['x']},${section['UF']['v']},${section['UF']['t']},")
+		sb.append("Municipio,${section['Municipio']['x']},${section['Municipio']['v']},${section['Municipio']['t']},")
+		sb.append("Zona,${section['Zona']['x']},${section['Zona']['v']},${section['Zona']['t']},")
+		sb.append("Seção,${section['Seção']['x']},${section['Seção']['v']},${section['Seção']['t']},")
+		return sb.toString()
+	}
 }
 

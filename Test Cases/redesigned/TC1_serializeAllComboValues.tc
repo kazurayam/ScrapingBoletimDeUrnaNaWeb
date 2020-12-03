@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description></description>
+   <name>TC1_serializeAllComboValues</name>
+   <tag></tag>
+   <comment>TARGET_URL: $GlobalVariable.TARGET_URL
+DIRNAME_PARAMETERS: $GlobalVariable.DIRNAME_PARAMETERS
+DIRNAME_PAGESOURCES: $GlobalVariable.DIRNAME_PAGESOURCES
+FILENAME_ALLCOMBOVALUES: $GlobalVariable.FILENAME_ALLCOMBOVALUES
+FILENAME_SPLITTEDCOMBOVALUES: $GlobalVariable.FILENAME_SPLITTEDCOMBOVALUES
+SIZE_PARALLEL_PROCESSING: $GlobalVariable.SIZE_PARALLEL_PROCESSING
+DEBUG_MODE: $GlobalVariable.DEBUG_MODE</comment>
+   <testCaseGuid>c51cff9e-c75b-46b7-ab51-1a79c74945a7</testCaseGuid>
+</TestCaseEntity>
