@@ -4,39 +4,4 @@
    <name>default</name>
    <tag></tag>
    <defaultProfile>true</defaultProfile>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'http://inter04.tse.jus.br/ords/eletse/f?p=111:1::PESQUISAR:NO:::'</initValue>
-      <name>TARGET_URL</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'./output/parameters'</initValue>
-      <name>DIRNAME_PARAMETERS</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'./output/pageSources'</initValue>
-      <name>DIRNAME_PAGESOURCES</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'AllComboValues.csv'</initValue>
-      <name>FILENAME_ALLCOMBOVALUES</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>'comboValues${SEQNUMBER}.csv'</initValue>
-      <name>FILENAME_SPLITTEDCOMBOVALUES</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>2</initValue>
-      <name>SIZE_PARALLEL_PROCESSING</name>
-   </GlobalVariableEntity>
-   <GlobalVariableEntity>
-      <description></description>
-      <initValue>false</initValue>
-      <name>DEBUG_MODE</name>
-   </GlobalVariableEntity>
 </GlobalVariableEntities>

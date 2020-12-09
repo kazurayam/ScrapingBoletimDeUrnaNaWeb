@@ -3,6 +3,7 @@ import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
 import com.kms.katalon.core.model.FailureHandling as FailureHandling
 import com.kms.katalon.core.testobject.TestObject as TestObject
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
+import com.kms.katalon.core.util.KeywordUtil
 
 import internal.GlobalVariable as GlobalVariable
 import my.common.CustomFileUtils
@@ -12,17 +13,18 @@ import my.study1.ComboBoxesScraper1
 // display parameter values
 WebUI.comment("TARGET_URL: ${GlobalVariable.TARGET_URL}")
 WebUI.comment("DIRNAME_PARAMETERS: ${GlobalVariable.DIRNAME_PARAMETERS}")
-WebUI.comment("DIRNAME_PAGESOURCES: ${GlobalVariable.DIRNAME_PAGESOURCES}")
 WebUI.comment("FILENAME_ALLCOMBOVALUES: ${GlobalVariable.FILENAME_ALLCOMBOVALUES}")
-WebUI.comment("FILENAME_SPLITTEDCOMBOVALUES: ${GlobalVariable.FILENAME_SPLITTEDCOMBOVALUES}")
-WebUI.comment("SIZE_PARALLEL_PROCESSING: ${GlobalVariable.SIZE_PARALLEL_PROCESSING}")
 WebUI.comment("DEBUG_MODE: ${GlobalVariable.DEBUG_MODE}")
 
+if (GlobalVariable.TARGET_URL == null) {
+	KeywordUtil.markFailedAndStop("GlobalVariable.TARGET_URL was null. Please specify appropriate Execution Profile.")	
+}
+
 // initialize output direcgtories, 
-File parametersDir = new File(GlobalVariable.DIRNAME_PARAMETERS)
+File parametersDir = new File((String)GlobalVariable.DIRNAME_PARAMETERS)
 CustomFileUtils.initializeDir(parametersDir)
 
-File pageSourcesDir = new File(GlobalVariable.DIRNAME_PAGESOURCES)
+File pageSourcesDir = new File((String)GlobalVariable.DIRNAME_PAGESOURCES)
 CustomFileUtils.initializeDir(pageSourcesDir)
 
 WebUI.openBrowser('')
