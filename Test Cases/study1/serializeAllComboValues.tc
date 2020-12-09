@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
    <description></description>
-   <name>TC1_serializeAllComboValues</name>
+   <name>serializeAllComboValues</name>
    <tag></tag>
    <comment>TARGET_URL: $GlobalVariable.TARGET_URL
 DIRNAME_PARAMETERS: $GlobalVariable.DIRNAME_PARAMETERS

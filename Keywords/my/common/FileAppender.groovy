@@ -1,4 +1,4 @@
-package my
+package my.common
 
 import java.nio.charset.StandardCharsets;
 

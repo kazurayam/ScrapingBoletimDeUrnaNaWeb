@@ -15,6 +15,6 @@
       <guid>4c0c7618-50ff-4fe0-9fe6-342a6ccec4c9</guid>
       <isReuseDriver>false</isReuseDriver>
       <isRun>true</isRun>
-      <testCaseId>Test Cases/redesigned/TC1_serializeAllComboValues</testCaseId>
+      <testCaseId>Test Cases/study1/serializeAllComboValues</testCaseId>
    </testCaseLink>
 </TestSuiteEntity>

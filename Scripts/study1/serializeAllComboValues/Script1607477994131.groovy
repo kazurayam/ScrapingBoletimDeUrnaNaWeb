@@ -1,17 +1,13 @@
 import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
 
-import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.io.FileUtils
-
 import com.kms.katalon.core.model.FailureHandling as FailureHandling
 import com.kms.katalon.core.testobject.TestObject as TestObject
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
-import groovy.json.JsonOutput
 import internal.GlobalVariable as GlobalVariable
-import my.ComboBoxesScraper
-import my.FileAppender
+import my.common.CustomFileUtils
+import my.common.FileAppender
+import my.study1.ComboBoxesScraper1
 
 // display parameter values
 WebUI.comment("TARGET_URL: ${GlobalVariable.TARGET_URL}")
@@ -24,9 +20,10 @@ WebUI.comment("DEBUG_MODE: ${GlobalVariable.DEBUG_MODE}")
 
 // initialize output direcgtories, 
 File parametersDir = new File(GlobalVariable.DIRNAME_PARAMETERS)
-initializeDir(parametersDir)
+CustomFileUtils.initializeDir(parametersDir)
+
 File pageSourcesDir = new File(GlobalVariable.DIRNAME_PAGESOURCES)
-initializeDir(pageSourcesDir)
+CustomFileUtils.initializeDir(pageSourcesDir)
 
 WebUI.openBrowser('')
 WebUI.setViewPortSize(414, 736)
@@ -55,44 +52,10 @@ List<Map> comboValues
 File allComboValuesFile = parametersDir.toPath().resolve(GlobalVariable.FILENAME_ALLCOMBOVALUES).toFile()
 
 FileAppender appender = new FileAppender(allComboValuesFile)
-ComboBoxesScraper cbScraper = new ComboBoxesScraper(appender)
+ComboBoxesScraper1 cbScraper = new ComboBoxesScraper1(appender)
 cbScraper.process(testObjects)
 appender.close()
 
 WebUI.closeBrowser()
 
-/**
- * create a new empty directory,
- * or create a direcgtory after deleting it recursively if already exists
- * 
- * @param dir
- * @return
- * @throws IOException
- */
-void initializeDir(File dir) throws IOException {
-	if (dir.exists()) {
-		FileUtils.deleteDirectory(dir)
-	}
-	dir.mkdirs()
-}
 
-String formatOutputTextAsJson(List<Map> comboValues) {
-	return JsonOutput.prettyPrint(JsonOutput.toJson(comboValues))
-}
-
-String formatOutputTextAsCSV(List<Map> comboValues) {
-	StringBuilder sb = new StringBuilder()
-	for (Map section in comboValues) {
-		sb.append(ComboBoxesScraper.toCSVLine(section))
-		sb.append('\n')
-	}
-	return sb.toString()
-}
-
-void writeTextIntoFile(String text, File outfile) throws IOException {
-	OutputStream os = new FileOutputStream(outfile)
-	Writer wr = new OutputStreamWriter(os, StandardCharsets.UTF_8.name())
-	wr.write(text)
-	wr.flush()
-	os.close()
-}

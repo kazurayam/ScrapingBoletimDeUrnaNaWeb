@@ -1,4 +1,4 @@
-package my
+package my.study1
 
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.Select
@@ -7,13 +7,15 @@ import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
 
 import internal.GlobalVariable as GlobalVariable
+import my.common.FileAppender
 
+import my.common.BaseComboBoxesScraper
 
-public class ComboBoxesScraper {
+public class ComboBoxesScraper1 extends BaseComboBoxesScraper {
 
 	FileAppender appender_
 
-	ComboBoxesScraper(FileAppender appender) {
+	ComboBoxesScraper1(FileAppender appender) {
 		this.appender_ = appender
 	}
 
@@ -92,14 +94,7 @@ public class ComboBoxesScraper {
 		return comboValues
 	}
 
-	static String getValue(WebElement el) {
-		return (el != null) ? el.getAttribute('value') : null
-	}
-
-	static String getText(WebElement el) {
-		return (el != null) ? el.getText() : null
-	}
-
+	
 	static String toCSVLine(Map section) {
 		StringBuilder sb = new StringBuilder()
 		sb.append("Turno,${section['Turno']['x']},${section['Turno']['v']},${section['Turno']['t']},")
