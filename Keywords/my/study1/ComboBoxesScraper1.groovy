@@ -34,24 +34,28 @@ public class ComboBoxesScraper1 extends BaseComboBoxesScraper {
 		List<WebElement> tOptions = new Select(WebUI.findWebElement(testObjects['Turno'])).getOptions()
 		for (int t = 0; t <= tOptions.size(); t++) {
 			WebUI.selectOptionByIndex(testObjects['Turno'], t)
+			WebUI.delay(1)
 			WebElement tOpt = tOptions[t]
 			def tVal = getValue(tOpt)
 			def tTxt = getText(tOpt)
 			List<WebElement> uOptions = new Select(WebUI.findWebElement(testObjects['UF'])).getOptions()
 			for (int u = 1; u < uOptions.size(); u++) {
 				WebUI.selectOptionByIndex(testObjects['UF'], u)
+				WebUI.delay(1)
 				WebElement uOpt = uOptions[u]
 				def uVal = getValue(uOpt)
 				def uTxt = getText(uOpt)
 				List<WebElement> mOptions = new Select(WebUI.findWebElement(testObjects['Municipio'])).getOptions()
 				for (int m = 1; m < mOptions.size(); m++) {
 					WebUI.selectOptionByIndex(testObjects['Municipio'], m)
+					WebUI.delay(1)
 					WebElement mOpt = mOptions[m]
 					def mVal = getValue(mOpt)
 					def mTxt = getText(mOpt)
 					List<WebElement> zOptions = new Select(WebUI.findWebElement(testObjects['Zona'])).getOptions()
 					for (int z = 1; z < zOptions.size(); z++) {
 						WebUI.selectOptionByIndex(testObjects['Zona'], z)   // this method call blocks
+						WebUI.delay(1)
 						WebElement zOpt = zOptions[z]
 						def zVal = getValue(zOpt)
 						def zTxt = getText(zOpt)
@@ -60,6 +64,7 @@ public class ComboBoxesScraper1 extends BaseComboBoxesScraper {
 						for (int s = 1; s < sOptions.size(); s++) {
 							// skip selecting the option, for better performance
 							//WebUI.selectOptionByIndex(testObjects['Seção'], s)
+							//WebUI.delay(1)
 
 							WebElement sOpt = sOptions[s]
 							def sVal = getValue(sOpt)
@@ -94,7 +99,7 @@ public class ComboBoxesScraper1 extends BaseComboBoxesScraper {
 		return comboValues
 	}
 
-	
+
 	static String toCSVLine(Map section) {
 		StringBuilder sb = new StringBuilder()
 		sb.append("Turno,${section['Turno']['x']},${section['Turno']['v']},${section['Turno']['t']},")
